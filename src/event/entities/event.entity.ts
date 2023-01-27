@@ -6,7 +6,6 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Blog } from 'src/blog/entities/blog.entity';
 import { User } from 'src/user/entities/user.entity';
 
 @Entity()
@@ -20,6 +19,14 @@ export class Event {
   @Column({
     nullable: false,
   })
+  time: string;
+  @Column({
+    nullable: false,
+  })
+  date: string;
+  @Column({
+    nullable: false,
+  })
   description: string;
   @Column({
     nullable: false,
@@ -28,7 +35,7 @@ export class Event {
   @Column({
     nullable: false,
   })
-  postalCode: number;
+  postalCode: string;
   @Column({
     nullable: false,
   })

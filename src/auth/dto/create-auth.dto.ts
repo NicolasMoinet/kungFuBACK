@@ -1,12 +1,7 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { RoleEnumType, User } from '../entities/user.entity';
-import { CreateUserDto } from './create-user.dto';
 import { IsEmail, IsOptional, Matches, MinLength } from 'class-validator';
-
-export class UpdateUserDto extends PartialType(CreateUserDto) {
-  @IsOptional()
-  @IsEmail(
-    {},
+import { RoleEnumType } from 'src/user/entities/user.entity';
+export class CreateAuthDto {
+  @IsEmail({},
     {
       message: "Format d'email invalide",
     },
@@ -14,9 +9,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @Matches(/^((?!yopmail\.com).)*$/, {
     message: 'Ce nom de domaine est interdit',
   })
-  email?: string;
+  email: string;
 
-  @IsOptional()
   @MinLength(8, {
     message: 'Le mot de passe doit faire au moins 8 caractères',
   })
@@ -24,18 +18,14 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     /^(?=.*[0-9])(?=.*[!@#\$%^&*(),.?":{}|<>])(?=.*[A-Z])(?=.*[a-z]).+$/,
     { message: 'Format du mot de passe invalide' },
   )
-  password?: string;
+  password: string;
 
-  @IsOptional()
   @MinLength(2, {
     message: 'Le pseudo doit faire au moins 2 caractères',
   })
   @Matches(/^[a-zA-ZÀ-ÿ]+.*[a-zA-ZÀ-ÿ0-9]$/, {
     message: 'Le pseudo doit forcément commencer et terminer par une lettre',
   })
-  name?: string;
-
-  @IsOptional()
-  writer?: User;
-  role: RoleEnumType;
+  name: string;
+  role?: RoleEnumType;
 }
