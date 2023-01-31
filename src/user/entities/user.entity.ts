@@ -1,15 +1,7 @@
 import { Blog } from 'src/blog/entities/blog.entity';
 import { Event } from 'src/event/entities/event.entity';
 
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 export enum RoleEnumType {
   USER = 'user',
   ADMIN = 'admin',
@@ -48,7 +40,6 @@ export class User {
 
   @OneToMany(() => Event, (event) => event.organisateur, { eager: false })
   event: Event;
-  @ManyToOne(() => Blog, (blog) => blog.writer, { eager: false })
+  @OneToMany(() => Blog, (blog) => blog.writer, { eager: false })
   blog: Blog;
-  writer: User;
 }

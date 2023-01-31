@@ -11,6 +11,9 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { EventModule } from './event/event.module';
 import { BlogModule } from './blog/blog.module';
+import { Blog } from './blog/entities/blog.entity';
+import passport from 'passport';
+import { PassportModule } from '@nestjs/passport';
 
 dotenv.config({ path: '.env' });
 @Module({
@@ -27,13 +30,14 @@ dotenv.config({ path: '.env' });
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [User, Event],
+      entities: [User, Event, Blog],
       synchronize: process.env.MODE === 'DEV' ? true : false,
     }),
     UserModule,
     EventModule,
     BlogModule,
     AuthModule,
+    PassportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

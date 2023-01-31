@@ -124,7 +124,7 @@ export class AuthService {
       from: `L'équipe Xiong Ying Wushu Guan <${process.env.GMAIL_USERNAME}>"`,
       to: process.env.GMAIL_USERNAME,
       subject: 'Xiong ying Wushu Guan - Réinitialisation de votre mot de passe',
-      html: `<p>Bonjour, vous avez souhaité réinitialiser votre mot de passe.</p> <p>Veuillez cliquer sur le lien ci-dessous pour en créer un nouveau :</p> <a href='${link}'>Réinitialiser</a> <p>A bientôt sur notre application,</p> <p>L'équipe Fit2Meet</p>`,
+      html: `<p>Bonjour, vous avez souhaité réinitialiser votre mot de passe.</p> <p>Veuillez cliquer sur le lien ci-dessous pour en créer un nouveau :</p> <a href='${link}'>Réinitialiser</a> <p>A bientôt sur notre application,</p> <p>Xiong ying WusguGuan</p>`,
     });
     console.log('info', info);
 

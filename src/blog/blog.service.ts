@@ -1,6 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  MethodNotAllowedException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateEventDto } from 'src/event/dto/create-event.dto';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateBlogDto } from './dto/create-blog.dto';
@@ -10,34 +14,71 @@ import { Blog } from './entities/blog.entity';
 @Injectable()
 export class BlogService {
   constructor(
-    @InjectRepository(Event)
-    private eventRepository: Repository<Event>,
+    @InjectRepository(Blog)
+    private blogRepository: Repository<Blog>,
   ) {}
-  async create(
-    createEventDto: CreateEventDto,
-    organisateur: User,
-  ): Promise<Event> {
-    // On intègre l'organisateur à notre event créé
-    const eventEnCoursDeCreation = {
-      ...createEventDto,
-      organisateur,
+  async create(createBlogDto: CreateBlogDto, writer: User): Promise<Blog> {
+    // On intègre le writer à notre article créé
+    const articleEnCoursDeCreation = {
+      ...createBlogDto,
+      writer,
     };
-    return await this.eventRepository.save(eventEnCoursDeCreation);
+    return await this.blogRepository.save(articleEnCoursDeCreation);
   }
 
-  findAll() {
-    return `This action returns all blog`;
+  async findAll(): Promise<Blog[]> {
+    return await this.blogRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blog`;
+  async findOne(id: string): Promise<Blog> {
+    const blogFound = await this.blogRepository.findOneBy({ id });
+    if (!blogFound) {
+      throw new NotFoundException(`pas d'article avec l'id : ${id}`);
+    }
+    return blogFound;
   }
 
-  update(id: number, updateBlogDto: UpdateBlogDto) {
-    return `This action updates a #${id} blog`;
+  async update(
+    id: string,
+    updateBlogDto: UpdateBlogDto,
+    connectedUser: User,
+  ): Promise<Blog> {
+    const upBlog = await this.findOne(id);
+    const { title, date, description, picture } = updateBlogDto;
+
+    if (!connectedUser && upBlog.writer.id !== connectedUser.id) {
+      throw new UnauthorizedException(
+        `Vous ne pouvez pas modifier un article que vous n'avez pas créé`,
+      );
+    }
+
+    upBlog.title = title;
+    upBlog.date = date;
+    upBlog.description = description;
+    upBlog.picture = picture;
+    if (!upBlog) {
+      throw new NotFoundException(`pas d'article avec l'id : ${id}`);
+    }
+
+    return await this.blogRepository.save(upBlog);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} blog`;
+  async remove(id: string, connectedUser: User): Promise<string> {
+    const blogToDelete = await this.findOne(id);
+
+    if (
+      // blogToDelete.writer.id !== connectedUser.id &&
+      connectedUser.role !== 'admin'
+    ) {
+      throw new UnauthorizedException(
+        `Vous ne pouvez pas supprimer un article que vous n'avez pas créé`,
+      );
+    }
+
+    const result = await this.blogRepository.delete({ id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`pas d'article qui a le nom : ${id}`);
+    }
+    return `This action removes a #${id} article`;
   }
 }

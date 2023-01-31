@@ -1,7 +1,8 @@
-import { IsEmail, IsOptional, Matches, MinLength } from 'class-validator';
+import { IsEmail, Matches, MinLength } from 'class-validator';
 import { RoleEnumType } from 'src/user/entities/user.entity';
 export class CreateAuthDto {
-  @IsEmail({},
+  @IsEmail(
+    {},
     {
       message: "Format d'email invalide",
     },

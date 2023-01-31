@@ -1,12 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 
 @Entity()
@@ -26,11 +18,10 @@ export class Blog {
   })
   description: string;
   @Column({
-    nullable: false,
+    nullable: true,
   })
   picture: string;
 
-  @OneToMany(() => User, (usr) => usr.writer, { eager: false })
-  user: User[];
+  @ManyToOne(() => User, (user) => user.blog, { eager: false })
   writer: User;
 }

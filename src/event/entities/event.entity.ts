@@ -41,7 +41,7 @@ export class Event {
   })
   city: string;
   @Column({
-    nullable: false,
+    nullable: true,
   })
   picture: string;
   @ManyToOne(() => User, (user) => user.event, { eager: true })
