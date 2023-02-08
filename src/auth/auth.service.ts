@@ -108,7 +108,7 @@ export class AuthService {
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
-      host: 'smtp.gmail.com',
+      host: 'nicolas.moinet444.gmail.com',
       port: 465,
       auth: {
         user: process.env.GMAIL_USERNAME,

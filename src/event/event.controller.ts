@@ -68,7 +68,8 @@ export class EventController {
       !updateEventDto.city &&
       !updateEventDto.date &&
       !updateEventDto.time &&
-      !updateEventDto.description
+      !updateEventDto.description &&
+      !updateEventDto.participants
     )
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
     return this.eventsService.update(id, updateEventDto, connectedUser);

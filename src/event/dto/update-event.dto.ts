@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateEventDto } from './create-event.dto';
-import { IsInt, IsOptional, Matches, Max, Min } from 'class-validator';
+import { IsOptional, Matches, Max, Min } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
 
 export class UpdateEventDto {
