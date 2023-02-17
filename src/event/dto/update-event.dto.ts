@@ -38,6 +38,6 @@ export class UpdateEventDto {
     message: 'Une description doit commencer par une lettre',
   })
   description: string;
-
+  picture?: string;
   participants: User[];
 }

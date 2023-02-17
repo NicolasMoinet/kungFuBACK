@@ -31,4 +31,5 @@ export class CreateEventDto {
   @IsOptional()
   description: string;
   organisateur?: User;
+  picture?: string;
 }

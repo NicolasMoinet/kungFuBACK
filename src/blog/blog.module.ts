@@ -5,9 +5,14 @@ import { Blog } from './entities/blog.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Blog, User]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([Blog, User]),
+    MulterModule.register({ dest: './files' }),
+    AuthModule,
+  ],
   controllers: [BlogController],
   providers: [BlogService],
 })

@@ -12,16 +12,16 @@ import { AuthModule } from './auth/auth.module';
 import { EventModule } from './event/event.module';
 import { BlogModule } from './blog/blog.module';
 import { Blog } from './blog/entities/blog.entity';
-import passport from 'passport';
 import { PassportModule } from '@nestjs/passport';
+import { MulterModule } from '@nestjs/platform-express';
 
 dotenv.config({ path: '.env' });
 @Module({
   imports: [
+    MulterModule.register({ dest: './files' }),
     ServeStaticModule.forRoot({
-      // permet de gérer les fichiers statics (images) comme avec express.static
-      rootPath: join(__dirname, '..', 'public/assets'),
-      serveRoot: '/public/assets/',
+      rootPath: join(__dirname, '..', 'files'),
+      serveRoot: 'files',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

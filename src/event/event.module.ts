@@ -6,9 +6,18 @@ import { Event } from './entities/event.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { User } from 'src/user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Event, User]), AuthModule, JwtModule],
+  imports: [
+    MulterModule.register({ dest: './files' }),
+    TypeOrmModule.forFeature([Event, User]),
+    AuthModule,
+    JwtModule,
+    MulterModule,
+  ],
   controllers: [EventController],
   providers: [EventService],
 })

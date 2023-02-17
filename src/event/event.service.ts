@@ -55,6 +55,7 @@ export class EventService {
       time,
       description,
       participants,
+      picture,
     } = updateEventDto;
 
     if (!participants && upEvent.organisateur.id !== connectedUser.id) {
@@ -86,10 +87,12 @@ export class EventService {
     upEvent.time = time;
     upEvent.description = description;
     upEvent.participants = participants;
+    upEvent.picture = picture;
     if (!upEvent) {
       throw new NotFoundException(`pas d'event avec l'id : ${id}`);
     }
-
+    console.log('conecteduserrrrrr', connectedUser.id);
+    console.log('participanttttttt', participants);
     return await this.eventRepository.save(upEvent);
   }
 
