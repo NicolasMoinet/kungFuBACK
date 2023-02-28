@@ -33,7 +33,7 @@ export class EventService {
   }
 
   async findOne(id: string): Promise<Event> {
-    const eventFound = await this.eventRepository.findOneBy({ id });
+    const eventFound: Event = await this.eventRepository.findOneBy({ id: id });
     if (!eventFound) {
       throw new NotFoundException(`pas d'event avec l'id : ${id}`);
     }
@@ -70,14 +70,14 @@ export class EventService {
       );
     }
 
-    if (
-      participants &&
-      participants.some((participant) => participant.id === connectedUser.id)
-    ) {
-      throw new MethodNotAllowedException(
-        `Un utilisateur ne peut pas s'inscrire à un évènement auquel il participe déjà`,
-      );
-    }
+    // if (
+    //   participants &&
+    //   participants.some((participant) => participant.id === connectedUser.id)
+    // ) {
+    //   throw new MethodNotAllowedException(
+    //     `Un utilisateur ne peut pas s'inscrire à un évènement auquel il participe déjà`,
+    //   );
+    // }
 
     upEvent.title = title;
     upEvent.address = address;

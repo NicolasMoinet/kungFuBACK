@@ -68,12 +68,13 @@ export class EventController {
     });
     return new StreamableFile(file);
   }
+
   @Get()
   findAll() {
     return this.eventsService.findAll();
   }
 
-  @Get(':id')
+  @Get('/one/:id')
   @UseGuards(AuthGuard())
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);

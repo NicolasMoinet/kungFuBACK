@@ -126,8 +126,8 @@ export class BlogController {
     return this.blogService.findAll();
   }
 
-  @Get(':id')
-  @UseGuards(AuthGuard())
+  @Get('/one/:id')
+  // @UseGuards(AuthGuard())
   findOne(@Param('id') id: string) {
     return this.blogService.findOne(id);
   }
